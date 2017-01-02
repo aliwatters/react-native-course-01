@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
     AppRegistry,
+    ScrollView,
     StyleSheet,
     Text,
     TouchableHighlight,
@@ -30,14 +31,14 @@ var StopWatch = React.createClass({
           {this.lapButton()}
         </View>
       </View>
-      <View style={styles.footer}>
+      <ScrollView style={styles.footer}>
           {this.laps()}
-      </View>
+      </ScrollView>
     </View>
   },
   laps: function() {
     return this.state.laps.map(function(lap, i){
-      return <View style={styles.lap}>
+      return <View style={styles.lap} key={'lap-'+i}>
         <Text style={styles.lapText}>Lap #{i + 1}</Text>
         <Text style={styles.lapText}>{formatTime(lap)}</Text>
       </View>
