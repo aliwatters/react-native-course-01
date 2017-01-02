@@ -13,7 +13,8 @@ var StopWatch = React.createClass({
     return {
       startTime: null,
       running: false,
-      timeElapsed: null
+      timeElapsed: null,
+      laps: []
     }
   },
   render: function() {
@@ -30,11 +31,17 @@ var StopWatch = React.createClass({
         </View>
       </View>
       <View style={styles.footer}>
-        <Text>
-          A list of laps.
-        </Text>
+          {this.laps()}
       </View>
     </View>
+  },
+  laps: function() {
+    return this.state.laps.map(function(lap, i){
+      return <View style={styles.lap}>
+        <Text style={styles.lapText}>Lap #{i + 1}</Text>
+        <Text style={styles.lapText}>{formatTime(lap)}</Text>
+      </View>
+    });
   },
   startStopButton: function() {
     var style = this.state.running? styles.stopButton : styles.startButton;
@@ -59,11 +66,10 @@ var StopWatch = React.createClass({
   },
   handleLapPress: function() {
     var lap = this.state.timeElapsed;
-    this.setState({startTime: new Date()});
-
-    console.log(lap);
-    this.setState({laps:this.state.laps.push(lap)});
-
+    this.setState({
+      startTime: new Date(),
+      laps:this.state.laps.concat([lap]) // can't use push as modifies!
+    });
   },
   handleStartPress: function() {
     if (this.state.running) {
@@ -73,7 +79,6 @@ var StopWatch = React.createClass({
     }
 
     this.setState({startTime: new Date()});
-    console.log('start:', this.state.startTime );
 
     this.interval = setInterval(() => {
       // never do: this.state.timeElapsed = <value>
@@ -130,6 +135,13 @@ var styles = StyleSheet.create({
   },
   stopButton: {
     borderColor: '#c00'
+  },
+  lap: {
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  },
+  lapText: {
+    fontSize: 30
   }
 });
 
