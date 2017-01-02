@@ -11,6 +11,8 @@ import formatTime from 'minutes-seconds-milliseconds';
 var StopWatch = React.createClass({
   getInitialState: function() {
     return {
+      startTime: null,
+      running: false,
       timeElapsed: null
     }
   },
@@ -35,27 +37,49 @@ var StopWatch = React.createClass({
     </View>
   },
   startStopButton: function() {
+    var style = this.state.running? styles.stopButton : styles.startButton;
+
     return <TouchableHighlight
       underlayColor='gray'
       onPress={this.handleStartPress}
-      style={[styles.button,styles.startButton]}
+      style={[styles.button,style]}
       >
-      <Text>Start</Text>
+      <Text>{this.state.running ? 'Stop' : 'Start'}</Text>
+    </TouchableHighlight>
+  }      // YUK - new interval is created EVERY time clicked
+,
+  lapButton:function() {
+    return <TouchableHighlight
+      style={styles.button}
+      underlayColor='gray'
+      onPress={this.handleLapPress}
+    >
+      <Text>Lap</Text>
     </TouchableHighlight>
   },
-  lapButton:function() {
-    return <View style={styles.button}>
-      <Text>Lap</Text>
-    </View>
+  handleLapPress: function() {
+    var lap = this.state.timeElapsed;
+    this.setState({startTime: new Date()});
+
+    console.log(lap);
+    this.setState({laps:this.state.laps.push(lap)});
+
   },
   handleStartPress: function() {
-    var startTime = new Date();
-    console.log('start:', startTime );
+    if (this.state.running) {
+      clearInterval(this.interval);
+      this.setState({ running: false });
+      return;
+    }
 
-    setInterval(() => {
+    this.setState({startTime: new Date()});
+    console.log('start:', this.state.startTime );
+
+    this.interval = setInterval(() => {
       // never do: this.state.timeElapsed = <value>
       this.setState({
-        timeElapsed: new Date() - startTime
+        running: true,
+        timeElapsed: new Date() - this.state.startTime
       });
     }, 30);
 
@@ -76,15 +100,15 @@ var styles = StyleSheet.create({
   header: { // Yellow
     flex:1
   },
-  footer: { // Blue
+  footer: {
     flex:1
   },
-  timerWrapper: { // Red
+  timerWrapper: {
     flex: 5,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  buttonWrapper: { // Green
+  buttonWrapper: {
     flex: 3,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -102,7 +126,10 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   startButton: {
-    borderColor: 'green'
+    borderColor: '#0c0'
+  },
+  stopButton: {
+    borderColor: '#c00'
   }
 });
 
