@@ -5,3 +5,5 @@ dist
 .svn
 *~
 *.swp
+
+weather/android/app/src/main/AndroidManifest.xml

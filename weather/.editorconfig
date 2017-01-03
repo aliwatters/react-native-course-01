@@ -1,0 +1,25 @@
+; EditorConfig http://EditorConfig.org
+; see http://editorconfig.org/#download for plugins for your editor
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+
+[*.html]
+indent_size = 4
+insert_final_newline = false
+
+[*.js]
+indent_size = 2
+
+[*.json]
+indent_size = 2
+
+[*.less]
+indent_size = 2
+
+; ignore third party
+[node_modules/**.js]
+indent_size = N/A
+indent_style = N/A
