@@ -59,3 +59,17 @@ Execution failed for task ':app:dexDebug'.
 $ react-native upgrade
 $ react-native run-android
 ```
+
+## Weather APP
+
+- openweathermap.org doesn't support https on the free accounts (probably better to use forcast.io)
+
+Workaround - enable http for api.openweathermap.org in `ios/weather/Info.plist`.
+
+```
+<key>api.openweathermap.org</key>
+<dict>
+  <key>NSExceptionAllowsInsecureHTTPLoads</key>
+  <true/>
+</dict>
+```

@@ -7,3 +7,4 @@ dist
 *.swp
 
 weather/android/app/src/main/AndroidManifest.xml
+weather/src/apikey.js
