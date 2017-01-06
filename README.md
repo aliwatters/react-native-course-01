@@ -73,3 +73,15 @@ Workaround - enable http for api.openweathermap.org in `ios/weather/Info.plist`.
   <true/>
 </dict>
 ```
+
+## Parse App
+
+Video 59 - parse is no longer - (parse.com) - running in a docker container instead.
+
+```
+$ git clone git@github.com:ParsePlatform/parse-server.git
+$ cd parse-server
+$ docker build --tag parse-server .
+$ docker run --name my-mongo -d mongo
+$ docker run --name my-parse-server --link my-mongo:mongo parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongodb://mongo/test
+```

@@ -6,8 +6,12 @@ import {
 } from 'react-native';
 
 import SignIn from './components/authentication/signin';
+import Parse from 'parse/react-native';
 
 module.exports = React.createClass({
+  componentWillMount: function() {
+    Parse.initialize("APPLICATION_ID", "MASTER_KEY");
+  },
   render: function() {
     return <View style={styles.container}>
       <SignIn></SignIn>
