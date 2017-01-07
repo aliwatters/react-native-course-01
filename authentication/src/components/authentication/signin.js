@@ -30,18 +30,25 @@ module.exports = React.createClass({
       />
       <Text style={styles.label}>{this.state.errorMessage}</Text>
       <Button text={'Sign In'} onPress={this.onPress} />
+      <Button text={'I need an account...'} onPress={this.onSignupPress} />
     </View>
   },
   onPress: function() {
+    this.setState({errorMessage: ''});
     console.log('Sign In Time', this.state);
     Parse.User.logIn(this.state.username, this.state.password,
     {
-      success:(user) => console.log(user),
+      success:(user) => console.log('SUCCESS', user),
       error: (data, error) => {
         this.setState({errorMessage: error.message});
-        console.log(data, error)
+        console.log('ERROR', data, error)
       }
     });
+  },
+  onSignupPress: function(){
+    // navigate to signup
+    // ideal => navigator.push('signup');
+    this.props.navigator.push({name:'signup'});
   }
 });
 
